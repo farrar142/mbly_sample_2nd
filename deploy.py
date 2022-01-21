@@ -19,6 +19,8 @@ def deploy():
     #꼭 본인의 경로에 맞게 수정해주세요!
     requirements_path = "requirements/prod.txt"
         
+    volume_link = "/docker_projects/nginx__1/data/site_projects/python__2:/usr/src/app"
+                    
     image_name="python1"
     
     deploy_con_name="python__1"
@@ -86,7 +88,10 @@ def deploy():
             shut_img_con(prev_con.container_name,prev_con.image_name)
             
         print("7.배포컨테이너 생성")
-        os.system(f"docker run -d -p {deploy_port}:{deploy_port} --name {deploy_con_name} -v $(pwd)/media:/media -v $(pwd)/static:/static  --restart unless-stopped {cur_image_name} gunicorn --bind 0:{deploy_port} {path}.wsgi")
+        os.system(f"docker run -d -p {deploy_port}:{deploy_port} --name {deploy_con_name}" +
+                  f"{volume_link}"+
+                  f"--restart unless-stopped {cur_image_name}" +
+                  f"gunicorn --bind 0:{deploy_port} {path}.wsgi")
         
         print("8.마이그레션")
         os.system(f"docker exec {deploy_con_name} {python} {execute_file} migrate --settings={deploy_setting_file}")
