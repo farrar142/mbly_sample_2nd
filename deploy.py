@@ -31,7 +31,7 @@ def deploy():
     
     test_port="8001"
     deploy_port="7999"     
-    
+    #
     execute_file="manage.py"
     deploy_setting_file=f"{path}.settings.prod"
     cur_image_name = f"{image_name}:{cur_time}"
