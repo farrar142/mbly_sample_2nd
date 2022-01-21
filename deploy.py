@@ -96,10 +96,9 @@ def deploy():
                   f" gunicorn --bind 0:{deploy_port} {path}.wsgi")
         os.system(f"docker run -d -p {deploy_port}:{deploy_port} --name {deploy_con_name}" +
                   f" -v {volume_link}"+
-                  #f" --restart unless-stopped"
+                  f" --restart unless-stopped"
                   f" {cur_image_name}" +
-                  f" ls -al")
-                  #f" gunicorn --bind 0:{deploy_port} {path}.wsgi")
+                  f" gunicorn --bind 0:{deploy_port} {path}.wsgi")
         
         print("8.마이그레션")
         os.system(f"docker exec {deploy_con_name} {python} {execute_file} migrate --settings={deploy_setting_file}")
@@ -270,7 +269,7 @@ def revise_dockerfile(execute_file,requirements_path,deploydockerfile):
     Args:
         execute_file ([파일이름]])
     """
-    context = f"FROM python:3.10\nENV PYTHONUNBUFFERED 1\nWORKDIR /usr/src/app\nCOPY . .\n#deploy.py에서 requirements_path를 수정해주세요\n#다른 폴더에 있다면 폴더이름/텍스트파일.txt 의 형식입니다.\nRUN pip3 install -r {requirements_path}\nRUN pip3 install django\nRUN ls"#python3 {execute_file} test"
+    context = f"FROM python:3.10\nENV PYTHONUNBUFFERED 1\nWORKDIR /usr/src/app\nCOPY . .\n#deploy.py에서 requirements_path를 수정해주세요\n#다른 폴더에 있다면 폴더이름/텍스트파일.txt 의 형식입니다.\nRUN pip3 install -r {requirements_path}\nRUN pip3 install django\nRUN python3 {execute_file} test"
     f = open(f"{deploydockerfile}",'w',encoding='UTF-8')
     f.write(context)
     f.close()
