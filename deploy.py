@@ -97,7 +97,8 @@ def deploy():
         os.system(f"docker run -d -p {deploy_port}:{deploy_port} --name {deploy_con_name}" +
                   f" -v {volume_link}"+
                   f" --restart unless-stopped {cur_image_name}" +
-                  f" gunicorn --bind 0:{deploy_port} {path}.wsgi")
+                  f" ls -al")
+                  #f" gunicorn --bind 0:{deploy_port} {path}.wsgi")
         
         print("8.마이그레션")
         os.system(f"docker exec {deploy_con_name} {python} {execute_file} migrate --settings={deploy_setting_file}")
