@@ -17,7 +17,7 @@ def deploy():
     else:
         python = "python3"
     
-    #꼭 본인의 경로에 맞게 수정해주세요!
+    #꼭 본인의 경로에 맞게 수정해주세요!#
     requirements_path = "requirements/prod.txt"
     #젠킨스의 빌드이름을 환경변수로 걊을 받습니다, 없으면 python__1입니다.
     project_name = os.environ.get("JOB_NAME") or "python__1"
