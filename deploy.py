@@ -96,7 +96,8 @@ def deploy():
                   f" gunicorn --bind 0:{deploy_port} {path}.wsgi")
         os.system(f"docker run -d -p {deploy_port}:{deploy_port} --name {deploy_con_name}" +
                   f" -v {volume_link}"+
-                  #f" --restart unless-stopped {cur_image_name}" +
+                  #f" --restart unless-stopped"
+                  f" {cur_image_name}" +
                   f" ls -al")
                   #f" gunicorn --bind 0:{deploy_port} {path}.wsgi")
         
