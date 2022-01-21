@@ -34,7 +34,7 @@ def deploy():
     database_con_name="mariadb__1"
     
     test_port="8001"
-    deploy_port="7999"     
+    deploy_port="8000"     
     #
     execute_file="manage.py"
     deploy_setting_file=f"{path}.settings.prod"
