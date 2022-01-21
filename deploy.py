@@ -19,7 +19,7 @@ def deploy():
     #꼭 본인의 경로에 맞게 수정해주세요!
     requirements_path = "requirements/prod.txt"
 
-    project_dir = "/python__2"
+    project_dir = "/docker_projects/.ssh"
     docker_work_dir = "/usr/src/app"
     volume_link = f"{project_dir}:{docker_work_dir}"
                     
