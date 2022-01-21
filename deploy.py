@@ -88,7 +88,7 @@ def deploy():
         os.system(f"docker rm -f {test_con.container_name}")
         if init == False:##첫실행이 아닐시
             shut_img_con(prev_con.container_name,prev_con.image_name)
-            
+            #
         print("7.배포컨테이너 생성")
         print(f"docker run -d -p {deploy_port}:{deploy_port} --name {deploy_con_name}" +
                   f" -v {volume_link}"+
