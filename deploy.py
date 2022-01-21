@@ -35,7 +35,7 @@ def deploy():
     execute_file="manage.py"
     deploy_setting_file=f"{path}.settings.prod"
     cur_image_name = f"{image_name}:{cur_time}"
-    
+    #
     deploydockerfile = "dockerfile"
     deploylogfile = "deploy_log_file.txt"
     
