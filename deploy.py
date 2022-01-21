@@ -8,7 +8,7 @@ from pathlib import Path
 
 def deploy():
     global project_dir,docker_work_dir
-    cur_time = get_now()
+    build_id = os.environ.get('BUILD_NUMBER') or get_now()
     path = get_setting_path()
     #초기 실행 변수
     init = False
@@ -19,8 +19,8 @@ def deploy():
     
     #꼭 본인의 경로에 맞게 수정해주세요!
     requirements_path = "requirements/prod.txt"
-    #젠킨스의 빌드이름을 환경변수로 걊을 받습니다, 젠킨스의 빌드에서 ${JOB_NAME}을 인자로 주었다면 설정하지 않아도 됩니다.
-    project_name=sys.argv[1] or "python__1"
+    #젠킨스의 빌드이름을 환경변수로 걊을 받습니다, 없으면 python__1입니다.
+    project_name = os.environ.get("JOB_NAME") or "python__1"
     #호스트의 절대주소+빌드이름을 받습니다.(도커소켓을 연결해놔서 연동이됨)
     project_dir = f"/docker_projects/nginx__1/data/site_projects/{project_name}"
     #도커컨테이너 안의 프로젝트 폴더입니다.
@@ -38,7 +38,7 @@ def deploy():
     #
     execute_file="manage.py"
     deploy_setting_file=f"{path}.settings.prod"
-    cur_image_name = f"{image_name}:{cur_time}"
+    cur_image_name = f"{image_name}:{build_id}"
     
     deploydockerfile = "dockerfile"
     deploylogfile = "deploy_log_file.txt"
