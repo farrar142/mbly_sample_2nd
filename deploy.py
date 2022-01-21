@@ -91,11 +91,11 @@ def deploy():
             
         print("7.배포컨테이너 생성")
         print(f"docker run -d -p {deploy_port}:{deploy_port} --name {deploy_con_name}" +
-                  f"{volume_link}"+
+                  f"-v {volume_link}"+
                   f"--restart unless-stopped {cur_image_name}" +
                   f"gunicorn --bind 0:{deploy_port} {path}.wsgi")
         os.system(f"docker run -d -p {deploy_port}:{deploy_port} --name {deploy_con_name}" +
-                  f"{volume_link}"+
+                  f"-v {volume_link}"+
                   f"--restart unless-stopped {cur_image_name}" +
                   f"gunicorn --bind 0:{deploy_port} {path}.wsgi")
         
