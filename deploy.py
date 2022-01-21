@@ -86,7 +86,7 @@ def deploy():
             shut_img_con(prev_con.container_name,prev_con.image_name)
             
         print("7.배포컨테이너 생성")
-        os.system(f"docker run -d -p {deploy_port}:{deploy_port} --name {deploy_con_name} {cur_image_name} gunicorn --bind 0:{deploy_port} {path}.wsgi")
+        os.system(f"docker run -d -p {deploy_port}:{deploy_port} --name {deploy_con_name} {cur_image_name} -v ./media ./media -v ./static ./static  --restart unless-stopped gunicorn --bind 0:{deploy_port} {path}.wsgi")
         
         print("8.마이그레션")
         os.system(f"docker exec {deploy_con_name} {python} {execute_file} migrate --settings={deploy_setting_file}")
