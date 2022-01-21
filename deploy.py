@@ -7,6 +7,7 @@ from datetime import datetime
 from pathlib import Path
 
 def deploy():
+    global project_dir,docker_work_dir
     cur_time = get_now()
     path = get_setting_path()
     #초기 실행 변수
@@ -18,8 +19,11 @@ def deploy():
     
     #꼭 본인의 경로에 맞게 수정해주세요!
     requirements_path = "requirements/prod.txt"
-
-    project_dir = "/docker_projects/nginx__1/data/site_projects/mbly"
+    #젠킨스의 빌드이름을 환경변수로 걊을 받습니다, 젠킨스의 빌드에서 ${JOB_NAME}을 인자로 주었다면 설정하지 않아도 됩니다.
+    project_name=sys.argv[1] or "python__1"
+    #호스트의 절대주소+빌드이름을 받습니다.(도커소켓을 연결해놔서 연동이됨)
+    project_dir = f"/docker_projects/nginx__1/data/site_projects/{project_name}"
+    #도커컨테이너 안의 프로젝트 폴더입니다.
     docker_work_dir = "/usr/src/app"
     volume_link = f"{project_dir}:{docker_work_dir}"
                     
@@ -269,7 +273,8 @@ def revise_dockerfile(execute_file,requirements_path,deploydockerfile):
     Args:
         execute_file ([파일이름]])
     """
-    context = f"FROM python:3.10\nENV PYTHONUNBUFFERED 1\nWORKDIR /usr/src/app\nCOPY . .\n#deploy.py에서 requirements_path를 수정해주세요\n#다른 폴더에 있다면 폴더이름/텍스트파일.txt 의 형식입니다.\nRUN pip3 install -r {requirements_path}\nRUN pip3 install django\nRUN python3 {execute_file} test"
+    global project_dir,docker_work_dir
+    context = f"FROM python:3.10\nENV PYTHONUNBUFFERED 1\nWORKDIR {docker_work_dir}\nCOPY . .\n#deploy.py에서 requirements_path를 수정해주세요\n#다른 폴더에 있다면 폴더이름/텍스트파일.txt 의 형식입니다.\nRUN pip3 install -r {requirements_path}\nRUN pip3 install django\nRUN python3 {execute_file} test"
     f = open(f"{deploydockerfile}",'w',encoding='UTF-8')
     f.write(context)
     f.close()
