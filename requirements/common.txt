@@ -8,3 +8,4 @@ django_bootstrap5
 lazy-string
 requests
 djangorestframework
+django-debug-toolbar
