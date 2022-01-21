@@ -62,7 +62,7 @@ def deploy():
         shut_img_con(shut_con.container_name,shut_con.image_name)
     except:
         pass
-    #
+    
     print("3.테스트용 이미지 생성")
     os.system("docker pull python:3.10")
     result = get_logs(f"docker build --force-rm -t {cur_image_name} .")
