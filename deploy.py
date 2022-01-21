@@ -20,7 +20,7 @@ def deploy():
     requirements_path = "requirements/prod.txt"
 
     project_dir = "/docker_projects/nginx__1/data/media/python__2"
-    docker_work_dir = "."
+    docker_work_dir = "/usr/src/app"
     volume_link = f"{project_dir}:{docker_work_dir}"
                     
     image_name="python1"
